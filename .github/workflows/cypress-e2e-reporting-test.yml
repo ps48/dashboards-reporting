@@ -138,6 +138,7 @@ jobs:
 
       - name: upload dashboards logs
         uses: actions/upload-artifact@v4.4.0
+        if: failure()
         with:
           name: dashboard.logs
           path: OpenSearch-Dashboards/dashboard.log
