@@ -32,14 +32,14 @@ jobs:
         with:
           timeout_minutes: 30
           max_attempts: 3
-          command: yarn kbn bootstrap
+          command: cd kibana && yarn kbn bootstrap
 
       - name: Test
         uses: nick-fields/retry@v3
         with:
           timeout_minutes: 30
           max_attempts: 3
-          command: yarn test --coverage
+          command: cd kibana && yarn test --coverage
 
       - name: Uploads coverage
         uses: codecov/codecov-action@v5
