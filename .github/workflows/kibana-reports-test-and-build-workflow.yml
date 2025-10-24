@@ -11,38 +11,38 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Kibana
-        uses: actions/checkout@v1
+        uses: actions/checkout@v5
         with:
           repository: elastic/kibana
           ref: v7.9.1
           path: kibana
 
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v6
         with:
           node-version: '10.22.0'
 
       - name: Checkout Plugin
-        uses: actions/checkout@v1
+        uses: actions/checkout@v4
         with:
           path: kibana/plugins/${{ env.PLUGIN_NAME }}
 
       - name: Kibana Plugin Bootstrap
-        uses: nick-fields/retry@v1
+        uses: nick-fields/retry@v3
         with:
           timeout_minutes: 30
           max_attempts: 3
           command: yarn kbn bootstrap
 
       - name: Test
-        uses: nick-fields/retry@v1
+        uses: nick-fields/retry@v3
         with:
           timeout_minutes: 30
           max_attempts: 3
           command: yarn test --coverage
 
       - name: Uploads coverage
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
@@ -52,7 +52,7 @@ jobs:
           mv ./build/*.zip ./build/${{ env.PLUGIN_NAME }}-${{ env.OD_VERSION }}.zip || true
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v5
         with:
           name: kibana-reports
           path: ./build/${{ env.PLUGIN_NAME }}-${{ env.OD_VERSION }}.zip
